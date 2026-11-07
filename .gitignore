@@ -5,6 +5,9 @@
 *.pdb
 bin/
 obj/
+.packages/
+.build/
+test-output/
 
 # Editor and local state
 .vs/

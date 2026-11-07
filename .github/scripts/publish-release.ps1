@@ -21,7 +21,7 @@ $expectedLine = $exeHash + '  SoulWebLauncher.exe'
 if ((Get-Content -LiteralPath 'SHA256SUMS.txt' -Raw).Trim() -cne $expectedLine) {
     throw 'The executable does not match SHA256SUMS.txt.'
 }
-$assets = @('SoulWebLauncher.exe', 'SHA256SUMS.txt')
+$assets = @('SoulWebLauncher.exe', 'SHA256SUMS.txt', 'THIRD_PARTY_NOTICES.txt')
 $api = 'https://api.github.com/repos/' + $repository
 $headers = @{
     Authorization = 'Bearer ' + $env:GITHUB_TOKEN

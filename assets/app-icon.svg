@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Original project artwork. This is not the Soul corporate logo. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#00B6AA"/>
+      <stop offset="1" stop-color="#05766F"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#tile)"/>
+  <path d="M34 15H43C48 15 52 19 52 24V30C52 34 49 37 45 38L49 44L37 38H34C29 38 25 34 25 30V24C25 19 29 15 34 15Z" fill="#8BE4D9"/>
+  <path d="M21 25H36C41 25 45 29 45 34V39C45 44 41 48 36 48H27L18 54L20 48C15 47 12 44 12 39V34C12 29 16 25 21 25Z" fill="#FCFFFF"/>
+  <circle cx="23.5" cy="36.5" r="2.3" fill="#087C74"/>
+  <circle cx="33.5" cy="36.5" r="2.3" fill="#087C74"/>
+</svg>
