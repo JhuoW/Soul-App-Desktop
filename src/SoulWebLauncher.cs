@@ -2,7 +2,15 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
+
+[assembly: AssemblyTitle("Soul Web Launcher")]
+[assembly: AssemblyDescription("Unofficial launcher for the official Soul website")]
+[assembly: AssemblyProduct("Soul Web Launcher")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyInformationalVersion("1.0.0")]
 
 namespace SoulWebLauncher
 {

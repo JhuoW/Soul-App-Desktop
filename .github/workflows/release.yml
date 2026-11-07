@@ -1,0 +1,30 @@
+name: Publish Windows release
+
+on:
+  push:
+    branches: [master]
+    paths: [VERSION]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: soul-windows-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.repository == 'JhuoW/Soul-App-Desktop' && github.ref == 'refs/heads/master'
+    runs-on: windows-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the exact source and binary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Verify and publish release assets
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./.github/scripts/publish-release.ps1

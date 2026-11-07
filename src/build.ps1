@@ -13,11 +13,16 @@ $sourceFile = Join-Path $PSScriptRoot 'SoulWebLauncher.cs'
 $manifestFile = Join-Path $PSScriptRoot 'app.manifest'
 $releaseDirectory = Split-Path -Parent $PSScriptRoot
 $executable = Join-Path $releaseDirectory 'SoulWebLauncher.exe'
+$versionFile = Join-Path $releaseDirectory 'VERSION'
 
-foreach ($requiredFile in @($sourceFile, $manifestFile)) {
+foreach ($requiredFile in @($sourceFile, $manifestFile, $versionFile)) {
     if (-not (Test-Path -LiteralPath $requiredFile -PathType Leaf)) {
         throw "Required file is missing: $requiredFile"
     }
+}
+$releaseVersion = [System.IO.File]::ReadAllText($versionFile).Trim()
+if ($releaseVersion -notmatch '^\d+\.\d+\.\d+$') {
+    throw 'VERSION must contain a version such as 1.0.0.'
 }
 
 $compilerArguments = @(
@@ -42,5 +47,14 @@ if ($LASTEXITCODE -ne 0) {
 if (-not (Test-Path -LiteralPath $executable -PathType Leaf)) {
     throw 'Compilation did not produce the expected executable.'
 }
+$fileVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($executable)
+if ($fileVersion.FileVersion -ne ($releaseVersion + '.0') -or $fileVersion.ProductVersion -ne $releaseVersion) {
+    throw 'The executable version does not match VERSION. Update the assembly version attributes before publishing.'
+}
+$checksum = (Get-FileHash -LiteralPath $executable -Algorithm SHA256).Hash.ToLowerInvariant()
+[System.IO.File]::WriteAllText((Join-Path $releaseDirectory 'SHA256SUMS.txt'),
+    ($checksum + "  SoulWebLauncher.exe`n"), [System.Text.Encoding]::ASCII)
 Write-Output "Built: $executable"
+Write-Output "Version: $releaseVersion"
+Write-Output "SHA256: $checksum"
 

@@ -2,9 +2,14 @@
 
 研究与构建日期：2026-11-07（北京时间）。这是个人使用的第三方启动助手，不是 Soul 官方软件；聊天服务和页面均由 Soul 官方提供。
 
-## 构建并使用
+## 下载并使用
 
-源码仓库不包含预编译的 `.exe`。下载或克隆仓库后，在 Windows PowerShell 中进入仓库目录并运行：
+仓库包含预编译的 `SoulWebLauncher.exe`。推荐从 [最新 Release](https://github.com/JhuoW/Soul-App-Desktop/releases/latest) 下载 EXE 和 `SHA256SUMS.txt`，也可以下载或克隆整个仓库后直接运行根目录的 EXE。
+
+- [下载最新版 EXE](https://github.com/JhuoW/Soul-App-Desktop/releases/latest/download/SoulWebLauncher.exe)
+- [下载校验文件](https://github.com/JhuoW/Soul-App-Desktop/releases/latest/download/SHA256SUMS.txt)
+
+需要自行编译时，在 Windows PowerShell 中进入仓库目录并运行：
 
 ```powershell
 .\src\build.ps1
@@ -88,13 +93,21 @@ v1.2.9 的发布说明还涉及绕开风控，v1.2.19 涉及完整签名请求�
 
 ## 构建与文件
 
-- `SoulWebLauncher.exe`：本地构建生成的可运行程序，未做商业代码签名，不提交到源码仓库。
+- `SoulWebLauncher.exe`：随仓库和 Release 提供的预编译程序，未做商业代码签名。
 - `src/SoulWebLauncher.cs`：完整 C# 源码。
 - `src/app.manifest`：普通用户权限及 DPI 声明。
 - `src/build.ps1`：使用 Windows 自带 .NET Framework 编译器构建，无 NuGet 或网络下载。
 - `VALIDATION.md`：本次验证结果和未测试范围。
+- `VERSION`：发布版本；当前为 `1.0.0`。
+- `SHA256SUMS.txt`：本次构建的 EXE 校验值。
+- `RELEASE_NOTES.md`：当前版本的发布说明。
+- `.github/workflows/release.yml`：在 `master` 分支更新 `VERSION` 时校验并发布对应 EXE；也支持手动运行。
 
 在 PowerShell 中进入 `src` 目录，运行 `./build.ps1` 可重新构建。若系统策略不允许运行脚本，可直接用已安装的 C# 编译工具编译源码；本项目不修改脚本策略、安全设置或系统启动项。
+
+发布新版本时，同步修改 `VERSION`、源码中的程序集版本和 `src/app.manifest` 版本，更新 `RELEASE_NOTES.md`，运行构建脚本，再把源码、EXE 和生成的校验文件一起提交到 `master`。GitHub Actions 会检查版本与校验值，创建草稿 Release，上传仓库中的同一份 EXE 和校验文件，校验附件后正式发布。已有版本内容不一致时流程会失败，不覆盖旧版附件；应使用新版本号。
+
+当前编译器未启用确定性构建，因此重新编译的哈希可能不同。`SHA256SUMS.txt` 用于核对本次发布文件，不表示任意机器重建都会产生相同字节。
 
 命令行 `SoulWebLauncher.exe --open` 可跳过助手界面，直接请求浏览器打开固定的官方地址。它不接受任意 URL 或浏览器参数。
 
