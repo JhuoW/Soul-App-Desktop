@@ -15,9 +15,10 @@ $outputDirectory = Join-Path $projectRoot 'obj\test-output'
 New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
 $runner = Join-Path $outputDirectory 'SmokeTests.exe'
 $source = Join-Path $PSScriptRoot 'SmokeTests.cs'
+$manifest = Join-Path $projectRoot 'src\app.manifest'
 $arguments = @('/nologo','/target:exe','/platform:anycpu','/warn:4','/warnaserror+','/codepage:65001',
     '/reference:System.dll','/reference:System.Core.dll','/reference:System.Drawing.dll','/reference:System.Windows.Forms.dll',
-    ('/out:' + $runner),$source)
+    ('/win32manifest:' + $manifest),('/out:' + $runner),$source)
 & $compiler @arguments
 if ($LASTEXITCODE -ne 0) { throw 'Smoke-test runner compilation failed.' }
 $testRoot = Join-Path $outputDirectory ('runtime-' + [Guid]::NewGuid().ToString('N'))

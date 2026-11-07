@@ -8,6 +8,8 @@ namespace SoulWebLauncher
 
     internal sealed class CloseChoiceDialog : Form
     {
+        private readonly Icon mainIcon;
+        private bool iconDisposed;
         internal CloseChoice Choice { get; private set; }
 
         internal CloseChoiceDialog()
@@ -15,7 +17,8 @@ namespace SoulWebLauncher
             Choice = CloseChoice.Cancel;
             Text = "关闭 Soul 桌面";
             Font = new Font("Microsoft YaHei UI", 10F);
-            Icon = AppIcons.LoadMainIcon();
+            mainIcon = AppIcons.LoadMainIcon();
+            Icon = mainIcon;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -65,8 +68,10 @@ namespace SoulWebLauncher
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && Icon != null) { Icon.Dispose(); Icon = null; }
-            base.Dispose(disposing);
+            bool releaseIcon = disposing && !iconDisposed;
+            if (releaseIcon) iconDisposed = true;
+            try { base.Dispose(disposing); }
+            finally { if (releaseIcon && mainIcon != null) mainIcon.Dispose(); }
         }
     }
 
