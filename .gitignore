@@ -1,0 +1,16 @@
+# Local build outputs
+*.exe
+*.dll
+*.pdb
+bin/
+obj/
+
+# Editor and local state
+.vs/
+*.user
+*.suo
+*.log
+.env
+.env.*
+Thumbs.db
+Desktop.ini
